@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwua.rbac.dao.AuthMapper">
+    <resultMap id="authResultMap" type="auth">
+        <id column="dbid" property="dbid"/>
+        <collection property="children" ofType="auth"
+                    select="queryByParentId"
+                    column="dbid"
+        />
+    </resultMap>
+    <resultMap id="validAuthResultMap" type="treeNode">
+        <id column="id" property="id"/>
+        <result column="text" property="text"/>
+        <collection property="children" ofType="treeNode"
+                    select="queryValidByParentId"
+                    column="id"/>
+    </resultMap>
+    <select id="queryByParentId" parameterType="int" resultMap="authResultMap">
+        SELECT *
+        FROM auth
+        WHERE parentId = #{parentId}
+    </select>
+
+    <update id="doUpdateByDbid" parameterType="auth">
+        UPDATE auth
+        SET authName = #{authName}, authCode = #{authCode}, authURL = #{authURL}, orders = #{orders}, type = #{type},
+            valid    = #{valid}
+        WHERE dbid = #{dbid}
+    </update>
+
+    <insert id="doInsert" parameterType="auth">
+        INSERT INTO auth (authName, authCode, authURL, type, parentId, orders, valid, layer)
+        VALUES (#{authName}, #{authCode}, #{authURL}, #{type}, #{parentId}, #{orders}, #{valid}, #{layer})
+    </insert>
+
+    <select id="queryValidByParentId" parameterType="int" resultMap="validAuthResultMap">
+        SELECT
+            dbid     id,
+            authName text
+        FROM auth
+        WHERE valid = 1 AND parentId = #{parentId}
+    </select>
+
+    <select id="queryAuthIdByRoleId" parameterType="int" resultType="int">
+        SELECT auth.dbid
+        FROM auth, role, role_auth
+        WHERE auth.dbid = role_auth.authId
+              AND role.dbid = role_auth.roleId
+              AND role.dbid = #{roleId}
+    </select>
+
+    <delete id="doDelete" parameterType="int">
+        DELETE FROM role_auth
+        WHERE roleId = #{roleId}
+    </delete>
+
+    <insert id="doInsertByRoleIdAndAuthId" parameterType="map">
+        INSERT INTO role_auth (roleId, authId) VALUES
+            <foreach collection="authIds" separator="," item="authId">
+                (#{roleId},#{authId})
+            </foreach>
+    </insert>
+</mapper>

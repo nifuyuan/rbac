@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwua.rbac.dao.UserMapper">
+
+    <select id="query" resultType="user">
+        SELECT *
+        FROM user
+    </select>
+
+    <select id="queryByProperties" parameterType="user" resultType="user">
+        SELECT *
+        FROM user
+        <where>
+            <if test="userName != null">
+                AND userName LIKE CONCAT('%', #{userName}, '%')
+            </if>
+            <if test="realName != null">
+                AND realName LIKE CONCAT('%', #{realName}, '%')
+            </if>
+            <if test="valid == 0 or valid ==1">
+                AND valid = #{valid}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByUsernameAndPassword" resultType="user">
+        SELECT *
+        FROM user
+        WHERE userName = #{username} AND password = #{password}
+    </select>
+
+    <insert id="doInsert" parameterType="user">
+        INSERT INTO user (userName, password, realName, valid) VALUES (#{userName}, #{password}, #{realName}, #{valid})
+    </insert>
+
+    <delete id="doDelete" parameterType="int">
+        DELETE FROM user_role
+        WHERE userId = #{userId}
+    </delete>
+
+    <insert id="doInsertByUserIdAndRoleIds" parameterType="map">
+        INSERT INTO user_role(userId, roleId) VALUES
+        <foreach collection="roleIds" item="roleId" separator=",">
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
+</mapper>

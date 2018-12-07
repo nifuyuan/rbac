@@ -1,0 +1,13 @@
+[{
+	"id": 1,
+	"text": "用户管理",
+	"url":"/user/main"
+}, {
+	"id": 12,
+	"text": "角色管理",
+	"url":"/role/main"
+}, {
+	"id": 13,
+	"text": "权限管理",
+	"url":"/auth/main"
+}]

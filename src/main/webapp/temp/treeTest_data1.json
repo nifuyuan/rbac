@@ -1,0 +1,25 @@
+[{
+	"id": 1,
+	"text": "创建试卷",
+	"url":"https://www.baidu.com"
+}, {
+	"id": 12,
+	"text": "成绩查询",
+	"children": [{
+		"id": 121,
+		"text": "考试成绩",
+		"url":"https://www.jd.com"
+	}, {
+		"id": 122,
+		"text": "考勤成绩",
+		"url":"/test/kaoqin"
+	}, {
+		"id": 123,
+		"text": "项目成绩",
+		"url":"/test/xiangmu"
+	}]
+}, {
+	"id": 13,
+	"text": "修改试卷",
+	"url":"/test/update"
+}]
