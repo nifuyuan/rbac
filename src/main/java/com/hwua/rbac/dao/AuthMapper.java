@@ -27,6 +27,13 @@ public interface AuthMapper {
      * @return
      */
     List<Integer> queryAuthIdByRoleId(Integer roleId);
+
+    /**根据用户id查询用户所拥有的权限
+     * 根据
+     * @param userId
+     * @return
+     */
+    List<Auth> queryAuthIdByUserId(Integer userId);
     /**
      * 根据dbid修改auth
      * @param auth

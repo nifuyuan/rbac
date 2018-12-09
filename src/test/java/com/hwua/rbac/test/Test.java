@@ -13,7 +13,8 @@ public class Test {
     public void test(){
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         AuthService authService = context.getBean(AuthService.class);
-        List<Auth> allAuths = authService.getAllAuths();
-        System.out.println(JSON.toJSONString(allAuths));
+        List<Auth> authList = authService.getAuthByUserId(26);
+        System.out.println(JSON.toJSONString(authList));
+        context.close();
     }
 }

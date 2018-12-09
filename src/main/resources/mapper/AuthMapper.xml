@@ -58,8 +58,21 @@
 
     <insert id="doInsertByRoleIdAndAuthId" parameterType="map">
         INSERT INTO role_auth (roleId, authId) VALUES
-            <foreach collection="authIds" separator="," item="authId">
-                (#{roleId},#{authId})
-            </foreach>
+        <foreach collection="authIds" separator="," item="authId">
+            (#{roleId},#{authId})
+        </foreach>
     </insert>
+
+    <select id="queryAuthIdByUserId" parameterType="int" resultType="auth">
+        SELECT
+            *,
+            dbid     id,
+            authName text
+        FROM auth
+        WHERE layer > 0 AND type = 1 AND dbid IN (SELECT authId
+                                                  FROM role_auth
+                                                  WHERE roleId IN (SELECT roleId
+                                                                   FROM user_role
+                                                                   WHERE userId = #{userId}))
+    </select>
 </mapper>

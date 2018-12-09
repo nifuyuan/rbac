@@ -82,8 +82,8 @@
                 onOpen:function () {
                     $("#auth-tree").tree({
                         url:"${path}/auth/getValidAuths?roleId="+roleId,
-                        checkbox:true
-                        // cascadeCheck:false
+                        checkbox:true,
+                        cascadeCheck:false
                     });
                 }
             }).window("open");

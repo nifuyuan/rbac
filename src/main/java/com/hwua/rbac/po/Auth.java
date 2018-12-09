@@ -12,6 +12,43 @@ public class Auth {
     private Integer orders;
     private String valid;
     private Integer layer;
+    private Integer id;
+    private String text;
+
+    @Override
+    public String toString() {
+        return "Auth{" +
+                "dbid=" + dbid +
+                ", authName='" + authName + '\'' +
+                ", authCode='" + authCode + '\'' +
+                ", authURL='" + authURL + '\'' +
+                ", type='" + type + '\'' +
+                ", parentId=" + parentId +
+                ", orders=" + orders +
+                ", valid='" + valid + '\'' +
+                ", layer=" + layer +
+                ", id=" + id +
+                ", text='" + text + '\'' +
+                ", children=" + children +
+                '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     private List<Auth> children;
 
     public Integer getDbid() {

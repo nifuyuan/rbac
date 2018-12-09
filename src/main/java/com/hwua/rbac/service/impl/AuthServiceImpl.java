@@ -8,6 +8,7 @@ import com.hwua.rbac.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,37 @@ public class AuthServiceImpl implements AuthService {
         List<Integer> authIds = authMapper.queryAuthIdByRoleId(roleId);
         parseAuth(nodes,authIds);
         return nodes;
+    }
+
+    @Override
+    public List<Auth> getAuthByUserId(Integer userId) {
+        List<Auth> authList = authMapper.queryAuthIdByUserId(userId);
+        //组织tree的结构
+        Auth father = null;
+        Auth son = null;
+        List<Auth> children = null;
+        for (int i = authList.size()-1; i >= 0; i--) {
+            children = new ArrayList<>();
+            //默认第i个是father
+            father = authList.get(i);
+            for (int j = 0; j < authList.size(); j++) {
+                son = authList.get(j);
+                if(son.getParentId().equals(father.getDbid())){
+                    authList.remove(j);
+                    j--;
+                    children.add(son);
+                }
+            }
+            father.setChildren(children);
+        }
+        //去掉层级不为1的权限
+        for (int i = 0; i < authList.size(); i++) {
+            if (!authList.get(i).getLayer().equals(1)){
+                authList.remove(i);
+                i--;
+            }
+        }
+        return authList;
     }
 
     private void parseAuth(List<TreeNode> nodes, List<Integer> authIds) {

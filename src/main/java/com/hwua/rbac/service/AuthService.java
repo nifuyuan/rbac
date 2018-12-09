@@ -12,6 +12,8 @@ public interface AuthService {
 
     List<TreeNode> getValidAuth(Integer roleId);
 
+    List<Auth> getAuthByUserId(Integer userId);
+
     int edit(Auth auth);
 
     int add(Auth auth);
