@@ -32,4 +32,8 @@ public class LoginController {
             return JSON.toJSONString(R.error());
         }
     }
+    @RequestMapping("/logout")
+    public String logout(){
+        return "login";
+    }
 }

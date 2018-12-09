@@ -62,8 +62,13 @@
     </script>
 </head>
 <body class="easyui-layout">
-<div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px;font-size: 20px">
-    <strong>人力资源管理系统</strong></div>
+<div data-options="region:'north',border:false" style="height:90px;background:#B3DFDA;padding:10px;font-size: 20px">
+    <h1 style="height: 50px;margin: 5px ;float: left">权限管理系统</h1>
+    <c:if test="${sessionScope.user != null}">
+        <p style="float: right">欢迎${sessionScope.user.userName}&nbsp;&nbsp;
+            <a href="${path}/logout" style="float: right">退出</a></p>
+    </c:if>
+</div>
 <div data-options="region:'west',split:true,title:'功能模块'" style="width:150px">
     <div class="easyui-accordion" data-options="fit:true">
         <div title="考试管理" style="overflow:auto">
